@@ -1,0 +1,48 @@
+type User {
+  id: ID,
+  name : String!
+  age: Int!
+  height: Float!
+  verified:Boolean 
+  friends:[User]
+  videoPosted :[Video!]
+}
+
+type Video {
+  id:ID!
+  title:String!
+  description: String!
+}
+
+input UserInput {
+  id:ID
+  name:String
+}
+
+type Query {
+  users:[User]
+  user(input: UserInput) :User
+}
+
+
+
+{
+  country(code:"US") {
+    capital
+    currency
+    native
+    continent {
+      code 
+      name 
+      countries {
+        name  currency awsRegion capital
+      }
+    }
+  }
+}
+{
+  languages {
+    code
+    name 
+  }
+}
