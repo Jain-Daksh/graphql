@@ -46,3 +46,107 @@ type Query {
     name 
   }
 }
+
+
+query All {
+  users {
+    ...GetAgeAndName
+  }
+  movies {
+     name yearOfPublication
+  }
+}
+
+
+query GetAllUsers {
+  users {
+    id
+    name
+    age
+    nationality
+    username
+    friends {
+      name
+    }
+  }
+}
+
+
+query GetUser($userId: ID!) {
+  user(id: $userId) {
+    name
+    friends {
+      name
+    }
+  }
+}
+
+query GetAllMovies {
+  movies {
+    id,
+    name,
+    isInTheaters
+  }
+}
+
+query GetAMovie($name: String!) {
+  movie(name: $name) {
+    name isInTheaters
+  }
+}
+
+
+
+
+query GetUser($userId: ID!) {
+  user(id: $userId) {
+    name
+    friends {
+      name
+    }
+    favoriteMovies {
+      name,
+    }
+  }
+}
+
+
+mutation CreateUser($input: CreateUserInput!){
+  createUser(input: $input) {
+    id
+    name 
+    age
+    username
+    nationality
+  }
+}
+
+
+mutation UpdateUserName($updateUsername: UpdateUsernameInput!) {
+  updateUsername(input: $updateUsername) {
+    id
+    username
+  }
+}
+
+mutation deleteUser($deleteUserId: ID!) {
+  deleteUser(id: $deleteUserId) {
+    id
+  }
+}
+
+mutation deleteUser($deleteUserId: ID!){
+  deleteUser(id: $deleteUserId) {
+    nationality
+  }
+}
+
+
+
+
+
+fragment GetAgeAndName on User {
+  name , age , nationality
+}
+fragment is used so that we can use that query multiple time and does not need to write the query field again and agian
+
