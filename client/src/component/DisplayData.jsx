@@ -37,7 +37,7 @@ const Get_A_Movie_BY_NAME = gql`
 const DisplayData = () => {
   const [movieSearch, setMovieSearch] = useState('')
 
-  const [fetchMovie, { data: movieSearchData, movieError }] =
+  const [fetchMovie, { data: movieSearchData, error: movieError }] =
     useLazyQuery(Get_A_Movie_BY_NAME)
   const { data, loading, error } = useQuery(QUERY_ALL_USERS, QUERY_ALL_Movies)
   const { data: movieData } = useQuery(QUERY_ALL_Movies)
