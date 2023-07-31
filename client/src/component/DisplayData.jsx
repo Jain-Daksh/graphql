@@ -1,5 +1,5 @@
-import { gql, useLazyQuery, useQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import { gql, useQuery } from '@apollo/client'
+import React from 'react'
 
 const QUERY_ALL_USERS = gql`
   query GetAllUsers {
@@ -24,21 +24,7 @@ const QUERY_ALL_Movies = gql`
   }
 `
 
-const Get_A_Movie_BY_NAME = gql`
-  query Movie($name: String!) {
-    movie(name: $name) {
-      id
-      name
-      yearOfPublication
-    }
-  }
-`
-
 const DisplayData = () => {
-  const [movieSearch, setMovieSearch] = useState('')
-
-  const [fetchMovie, { data: movieSearchData, error: movieError }] =
-    useLazyQuery(Get_A_Movie_BY_NAME)
   const { data, loading, error } = useQuery(QUERY_ALL_USERS, QUERY_ALL_Movies)
   const { data: movieData } = useQuery(QUERY_ALL_Movies)
 
@@ -52,9 +38,7 @@ const DisplayData = () => {
   if (error) {
     console.log(error)
   }
-  if (movieError) {
-    console.log(movieError)
-  }
+
   return (
     <>
       {data &&
@@ -77,70 +61,10 @@ const DisplayData = () => {
             <h1>Movie Name: {movie.name}</h1>
           </div>
         ))}
-
       <hr />
       <br />
       <br />
       <br />
-
-      {/* <div>
-        <input
-          type="text"
-          placeholder=""
-          onChange={e => setMovieSearch(e.target.value)}
-        />
-        <button
-          onClick={() => {
-            fetchMovie({
-              variables: {
-                name: movieSearch
-              }
-            })
-          }}
-        >
-          Fetch Data
-        </button>
-        <div>
-          {movieSearchData && (
-            <div>
-              <h1>{movieSearchData.movie.name}</h1>
-              <h1>{movieSearchData.movie.yearOfPublication}</h1>
-            </div>
-          )}
-        </div>
-      </div> */}
-
-      <div>
-        <input
-          type="text"
-          placeholder="Interstellar..."
-          onChange={event => {
-            setMovieSearch(event.target.value)
-          }}
-        />
-        <button
-          onClick={() => {
-            fetchMovie({
-              variables: {
-                name: movieSearch
-              }
-            })
-          }}
-        >
-          Fetch Data
-        </button>
-        <div>
-          {movieSearchData && (
-            <div>
-              <h1>MovieName: {movieSearchData.movie.name}</h1>
-              <h1>
-                Year Of Publication: {movieSearchData.movie.yearOfPublication}
-              </h1>{' '}
-            </div>
-          )}
-          {movieError && <h1> There was an error fetching the data</h1>}
-        </div>
-      </div>
     </>
   )
 }
