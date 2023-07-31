@@ -3,7 +3,9 @@ const _ = require('lodash')
 
 const resolvers = {
   Query: {
-    users() {
+    users(parent, args, context, info) {
+      console.log('context', context)
+      console.log('info', info)
       return UserList
     },
     user: (parent, args) => {
@@ -76,6 +78,14 @@ const resolvers = {
   //     console.log(user)
   //   }
   // }
+
+  /// context,fragments,unions
+
+  /*
+  {
+
+  }
+  */
 }
 module.exports = {
   resolvers
