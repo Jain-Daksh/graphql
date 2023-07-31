@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import './App.css'
 import DisplayData from './component/DisplayData'
+import Mutation from './component/Mutation'
 import SearchData from './component/SearchData'
 function App() {
   const client = new ApolloClient({
@@ -14,6 +15,8 @@ function App() {
         <DisplayData />
         <br />
         <SearchData />
+        <br />
+        <Mutation />
       </div>
     </ApolloProvider>
   )

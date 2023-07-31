@@ -1,5 +1,5 @@
-import { gql, useQuery } from '@apollo/client'
-import React from 'react'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import React, { useState } from 'react'
 
 const QUERY_ALL_USERS = gql`
   query GetAllUsers {
@@ -24,8 +24,27 @@ const QUERY_ALL_Movies = gql`
   }
 `
 
+const CREATE_USER_MUTATION = gql`
+  mutation createUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      name
+      age
+      id
+      nationality
+      username
+    }
+  }
+`
+
 const DisplayData = () => {
-  const { data, loading, error } = useQuery(QUERY_ALL_USERS, QUERY_ALL_Movies)
+  const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
+  const [age, setAge] = useState(21)
+  const [nationality, setNationality] = useState('')
+
+  const [createUser] = useMutation(CREATE_USER_MUTATION)
+
+  const { data, loading, error, refetch } = useQuery(QUERY_ALL_USERS)
   const { data: movieData } = useQuery(QUERY_ALL_Movies)
 
   if (loading) {
@@ -65,6 +84,49 @@ const DisplayData = () => {
       <br />
       <br />
       <br />
+
+      <div>
+        <button
+          onClick={() => {
+            createUser({
+              variables: {
+                input: { name, age, nationality, username }
+              }
+            })
+            refetch()
+          }}
+        >
+          Add User
+        </button>
+        <input
+          type="text"
+          placeholder="name"
+          onChange={event => {
+            setName(event.target.value)
+          }}
+        />
+        <input
+          type="number"
+          placeholder="age"
+          onChange={event => {
+            setAge(Number(event.target.value))
+          }}
+        />
+        <input
+          type="text"
+          placeholder="username"
+          onChange={event => {
+            setUsername(event.target.value.toUpperCase())
+          }}
+        />
+        <input
+          type="text"
+          placeholder="nationality"
+          onChange={event => {
+            setNationality(event.target.value)
+          }}
+        />
+      </div>
     </>
   )
 }
