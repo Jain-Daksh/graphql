@@ -61,6 +61,12 @@ const typeDefs = gql`
     nationality: Nationality = BRAZIL
   }
 
+  input CreateMovieInput {
+    name: String!
+    isInTheaters: Boolean = false
+    yearOfPublication: Int!
+  }
+
   input UpdateUsernameInput {
     id: ID!
     newUsername: String!
@@ -70,6 +76,7 @@ const typeDefs = gql`
     createUser(input: CreateUserInput!): User
     updateUsername(input: UpdateUsernameInput!): User
     deleteUser(id: ID!): User
+    createMovie(input: CreateMovieInput!): Movie
   }
 `
 

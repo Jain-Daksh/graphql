@@ -41,6 +41,15 @@ const resolvers = {
       return user
     },
 
+    createMovie: (parent, args) => {
+      const movie = args.input
+      const lastId = MovieList[MovieList.length - 1].id
+      movie.id = lastId + 1
+      MovieList.push(movie)
+      console.log(movie)
+      return movie
+    },
+
     updateUsername: (parent, args) => {
       const { id, newUsername } = args.input
       let userUpdate
