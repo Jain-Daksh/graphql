@@ -20,7 +20,6 @@ const resolvers = {
       return movie
     }
   },
-
   User: {
     favoriteMovies: () => {
       return _.filter(
@@ -29,7 +28,45 @@ const resolvers = {
           movie.yearOfPublication >= 2000 && movie.yearOfPublication < 2010
       )
     }
+  },
+
+  /// mutattion ex
+  Mutation: {
+    createUser: (parent, args) => {
+      const user = args.input
+      const lastId = UserList[UserList.length - 1].id
+      user.id = lastId + 1
+      UserList.push(user)
+      console.log(user)
+      return user
+    },
+
+    updateUsername: (parent, args) => {
+      const { id, newUsername } = args.input
+      let userUpdate
+      UserList.forEach(user => {
+        if (user.id === id) {
+          user.username = newUsername
+          userUpdate = user
+        }
+      })
+      return userUpdate
+    },
+
+    deleteUser: (parent, args) => {
+      const id = args.id
+      _.remove(UserList, user => user.id === Number(id))
+      console.log(UserList)
+      return UserList
+    }
   }
+
+  // Mutation: {
+  //   createUser: (parent, args) => {
+  //     const user = args.input
+  //     console.log(user)
+  //   }
+  // }
 }
 module.exports = {
   resolvers
